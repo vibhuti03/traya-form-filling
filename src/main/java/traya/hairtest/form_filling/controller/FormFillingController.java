@@ -7,12 +7,15 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import traya.hairtest.form_filling.dto.request.FormQuestionRequestDto;
+import traya.hairtest.form_filling.dto.request.SubmitAnswerRequestDto;
 import traya.hairtest.form_filling.dto.request.UserDemographicRequestDto;
 import traya.hairtest.form_filling.dto.request.UserFormStatusRequestDto;
 import traya.hairtest.form_filling.dto.response.FormQuestionResponseDto;
+import traya.hairtest.form_filling.dto.response.SubmitAnswerResponseDto;
 import traya.hairtest.form_filling.dto.response.UserDemographicResponseDto;
 import traya.hairtest.form_filling.dto.response.UserFormStatusResponseDto;
 import traya.hairtest.form_filling.service.formQuestions.FormQuestions;
+import traya.hairtest.form_filling.service.submitAnswers.SubmitAnswers;
 import traya.hairtest.form_filling.service.userDemographicDetailsSaveOrUpdate.UserDemographicDetails;
 import traya.hairtest.form_filling.service.userFormStatus.UserFormStatus;
 
@@ -26,6 +29,9 @@ public class FormFillingController {
 
     @Autowired
     private UserDemographicDetails userDemographicDetails;
+
+    @Autowired
+    private SubmitAnswers submitAnswers;
 
     @Autowired
     private FormQuestions formQuestions;
@@ -60,5 +66,12 @@ public class FormFillingController {
             FormQuestionRequestDto request
     ){
         return formQuestions.getNextFormQuestion(request);
+    }
+
+    @PostMapping("/submit-answer")
+    public SubmitAnswerResponseDto submitAnswer(
+            @Valid @RequestBody SubmitAnswerRequestDto request
+    ) {
+        return submitAnswers.submitAnswer(request);
     }
 }

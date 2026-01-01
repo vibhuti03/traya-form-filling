@@ -52,7 +52,9 @@ public class UserDemographicDetailsImpl implements UserDemographicDetails {
 
         //reset form status for user
         user.setCurrentQuestionIndex(0);
+        user.setAnswersJson(null);
         user.setSubmitted(false);
+
         user.setLastUpdatedAt(LocalDateTime.now());
 
         userRepository.save(user);
