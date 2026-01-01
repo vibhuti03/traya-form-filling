@@ -35,7 +35,7 @@ public class UserFormStatusImpl implements UserFormStatus {
                 .gender(userFormData.getGender())
                 .location(userFormData.getLocation())
                 .formSubmitted(userFormData.getSubmitted())
-                .currentQuestionIndex(userFormData.getCurrentQuestionIndex())
+                .nextQuestionIndex(userFormData.getCurrentQuestionIndex()+1)
                 .build();
 
     }

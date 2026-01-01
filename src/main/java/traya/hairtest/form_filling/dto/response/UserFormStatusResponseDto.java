@@ -18,5 +18,5 @@ public class UserFormStatusResponseDto {
     private String location;
 
     private Boolean formSubmitted;
-    private Integer currentQuestionIndex;
+    private Integer nextQuestionIndex;
 }
