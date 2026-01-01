@@ -15,10 +15,7 @@ import traya.hairtest.form_filling.service.submitAnswers.SubmitAnswers;
 import traya.hairtest.form_filling.utils.QuestionnareLoader;
 
 import java.time.LocalDateTime;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 @Service
 @AllArgsConstructor
@@ -36,88 +33,111 @@ public class SubmitAnswersImpl implements SubmitAnswers {
     @Override
     public SubmitAnswerResponseDto submitAnswer(SubmitAnswerRequestDto request) {
 
-        UserEntity user = userRepository.findById(request.getPhone())
+        UserEntity user = fetchUser(request.getPhone());
+        validateActiveForm(user);
+
+        int expectedQuestion = getExpectedQuestion(user);
+        validateQuestionOrder(request.getQuestionNumber(), expectedQuestion);
+
+        var questionnaire = questionnareLoader.get(user.getGender().name());
+        Question question = getQuestion(questionnaire.getQuestions(), request.getQuestionNumber());
+
+        validateAnswers(question, request.getAnswers());
+
+        Map<Integer, List<String>> answersMap = loadAnswers(user);
+        answersMap.put(request.getQuestionNumber(), request.getAnswers());
+
+        persistAnswers(user, answersMap);
+
+        int nextQuestion = request.getQuestionNumber() + 1;
+        updateProgress(user, nextQuestion);
+
+        return buildResponse(nextQuestion, questionnaire.getQuestions().size());
+    }
+
+    /* ----------------- Helper methods ----------------- */
+
+    private UserEntity fetchUser(String phone) {
+        return userRepository.findById(phone)
                 .orElseThrow(() -> new RuntimeException("User not found"));
+    }
 
+    private void validateActiveForm(UserEntity user) {
         if (Boolean.TRUE.equals(user.getSubmitted())) {
-            throw new RuntimeException("Form already submitted");
+            throw new RuntimeException("No active form");
         }
+    }
 
-        int expectedQuestion =
-                user.getCurrentQuestionIndex() == 0 ? 1 : user.getCurrentQuestionIndex();
+    private int getExpectedQuestion(UserEntity user) {
+        return user.getCurrentQuestionIndex() == 0 ? 1 : user.getCurrentQuestionIndex();
+    }
 
-        if (!request.getQuestionNumber().equals(expectedQuestion)) {
+    private void validateQuestionOrder(Integer actual, int expected) {
+        if (!actual.equals(expected)) {
             throw new RuntimeException("Invalid question order");
         }
+    }
 
-        Question question =
-                questionnareLoader
-                        .get(user.getGender().name())
-                        .getQuestions()
-                        .stream()
-                        .filter(q -> q.getNumber() == request.getQuestionNumber())
-                        .findFirst()
-                        .orElseThrow(() ->
-                                new RuntimeException("Invalid question number"));
+    private Question getQuestion(List<Question> questions, int questionNumber) {
+        return questions.stream()
+                .filter(q -> q.getNumber() == questionNumber)
+                .findFirst()
+                .orElseThrow(() -> new RuntimeException("Invalid question number"));
+    }
 
-        if ("SCQ".equals(question.getType())
-                && request.getAnswers().size() != 1) {
-            throw new RuntimeException("SCQ must have exactly one answer");
-        }
+    private void validateAnswers(Question question, List<String> answers) {
 
-        if ("MCQ".equals(question.getType())
-                && request.getAnswers().isEmpty()) {
-            throw new RuntimeException("MCQ must have at least one answer");
+        switch (question.getType()) {
+            case "SCQ" -> {
+                if (answers.size() != 1) {
+                    throw new RuntimeException("SCQ must have exactly one answer");
+                }
+            }
+            case "MCQ" -> {
+                if (answers.isEmpty()) {
+                    throw new RuntimeException("MCQ must have at least one answer");
+                }
+            }
+            default -> throw new RuntimeException("Unsupported question type");
         }
 
         Set<String> validOptions = new HashSet<>(question.getOptions());
-
-        for (String answer : request.getAnswers()) {
+        for (String answer : answers) {
             if (!validOptions.contains(answer)) {
-                throw new RuntimeException(
-                        "Invalid answer option: " + answer
-                );
+                throw new RuntimeException("Invalid answer option: " + answer);
             }
         }
+    }
 
-
-        // --- Load existing answers ---
-        Map<Integer, Object> answersMap = new HashMap<>();
-
+    private Map<Integer, List<String>> loadAnswers(UserEntity user) {
         try {
-            if (user.getAnswersJson() != null) {
-                answersMap = objectMapper.readValue(
-                        user.getAnswersJson(),
-                        new TypeReference<>() {}
-                );
+            if (user.getAnswersJson() == null) {
+                return new HashMap<>();
             }
+            return objectMapper.readValue(
+                    user.getAnswersJson(),
+                    new TypeReference<>() {}
+            );
         } catch (Exception e) {
             throw new RuntimeException("Failed to parse answers JSON", e);
         }
+    }
 
-        // --- Store answer ---
-        answersMap.put(request.getQuestionNumber(), request.getAnswers());
-
+    private void persistAnswers(UserEntity user, Map<Integer, List<String>> answersMap) {
         try {
             user.setAnswersJson(objectMapper.writeValueAsString(answersMap));
         } catch (Exception e) {
-            throw new RuntimeException("Failed to save answer", e);
+            throw new RuntimeException("Failed to save answers", e);
         }
+    }
 
-        // --- Increment question ---
-        int nextQuestion = request.getQuestionNumber() + 1;
+    private void updateProgress(UserEntity user, int nextQuestion) {
         user.setCurrentQuestionIndex(nextQuestion);
         user.setLastUpdatedAt(LocalDateTime.now());
-
         userRepository.save(user);
+    }
 
-        // --- Check completion ---
-        int totalQuestions =
-                questionnareLoader
-                        .get(user.getGender().name())
-                        .getQuestions()
-                        .size();
-
+    private SubmitAnswerResponseDto buildResponse(int nextQuestion, int totalQuestions) {
         if (nextQuestion > totalQuestions) {
             return SubmitAnswerResponseDto.builder()
                     .completed(true)
