@@ -1,0 +1,76 @@
+{
+  "version": "1.0",
+  "gender": "MALE",
+  "questions": [
+    {
+      "number": 1,
+      "category": "HAIR_FALL",
+      "type": "SCQ",
+      "text": "Do you experience hair fall?",
+      "options": ["YES", "NO"]
+    },
+    {
+      "number": 2,
+      "category": "HAIR_FALL",
+      "type": "SCQ",
+      "text": "Is hair thinning visible on your crown?",
+      "options": ["YES", "NO"]
+    },
+    {
+      "number": 3,
+      "category": "HAIR_FALL",
+      "type": "SCQ",
+      "text": "Is your hairline receding?",
+      "options": ["YES", "NO"]
+    },
+    {
+      "number": 4,
+      "category": "SCALP_HEALTH",
+      "type": "MCQ",
+      "text": "Which scalp issues do you face?",
+      "options": ["DANDRUFF", "ITCHING", "OILINESS"]
+    },
+    {
+      "number": 5,
+      "category": "GENETICS",
+      "type": "SCQ",
+      "text": "Does hair loss run in your family?",
+      "options": ["YES", "NO", "NOT_SURE"]
+    },
+    {
+      "number": 6,
+      "category": "LIFESTYLE",
+      "type": "SCQ",
+      "text": "Do you smoke or consume alcohol frequently?",
+      "options": ["YES", "NO"]
+    },
+    {
+      "number": 7,
+      "category": "LIFESTYLE",
+      "type": "SCQ",
+      "text": "How many hours do you sleep daily?",
+      "options": ["<5", "5_7", ">7"]
+    },
+    {
+      "number": 8,
+      "category": "MEDICAL",
+      "type": "SCQ",
+      "text": "Have you had COVID in the past year?",
+      "options": ["YES", "NO"]
+    },
+    {
+      "number": 9,
+      "category": "MEDICAL",
+      "type": "SCQ",
+      "text": "Are you on any long-term medication?",
+      "options": ["YES", "NO"]
+    },
+    {
+      "number": 10,
+      "category": "HAIR_CARE",
+      "type": "SCQ",
+      "text": "How often do you shampoo your hair?",
+      "options": ["DAILY", "ALTERNATE_DAYS", "WEEKLY"]
+    }
+  ]
+}

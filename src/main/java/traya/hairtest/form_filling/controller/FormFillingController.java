@@ -6,10 +6,13 @@ import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import traya.hairtest.form_filling.dto.request.FormQuestionRequestDto;
 import traya.hairtest.form_filling.dto.request.UserDemographicRequestDto;
 import traya.hairtest.form_filling.dto.request.UserFormStatusRequestDto;
+import traya.hairtest.form_filling.dto.response.FormQuestionResponseDto;
 import traya.hairtest.form_filling.dto.response.UserDemographicResponseDto;
 import traya.hairtest.form_filling.dto.response.UserFormStatusResponseDto;
+import traya.hairtest.form_filling.service.formQuestions.FormQuestions;
 import traya.hairtest.form_filling.service.userDemographicDetailsSaveOrUpdate.UserDemographicDetails;
 import traya.hairtest.form_filling.service.userFormStatus.UserFormStatus;
 
@@ -23,6 +26,9 @@ public class FormFillingController {
 
     @Autowired
     private UserDemographicDetails userDemographicDetails;
+
+    @Autowired
+    private FormQuestions formQuestions;
 
     @GetMapping("/health")
     public ResponseEntity<String> healthCheck(@RequestParam String name){
@@ -45,5 +51,14 @@ public class FormFillingController {
             UserDemographicRequestDto request
     ){
         return userDemographicDetails.saveOrUpdateuserDemographicDetails(request);
+    }
+
+    @PostMapping("/next-question")
+    public FormQuestionResponseDto getNextFormQuestion(
+            @Valid
+            @RequestBody
+            FormQuestionRequestDto request
+    ){
+        return formQuestions.getNextFormQuestion(request);
     }
 }

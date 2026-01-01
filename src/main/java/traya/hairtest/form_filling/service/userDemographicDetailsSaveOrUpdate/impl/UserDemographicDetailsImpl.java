@@ -1,5 +1,6 @@
 package traya.hairtest.form_filling.service.userDemographicDetailsSaveOrUpdate.impl;
 
+import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import traya.hairtest.form_filling.dto.request.UserDemographicRequestDto;
@@ -12,6 +13,7 @@ import java.time.LocalDateTime;
 import java.util.Optional;
 
 @Service
+@AllArgsConstructor
 public class UserDemographicDetailsImpl implements UserDemographicDetails {
 
     @Autowired

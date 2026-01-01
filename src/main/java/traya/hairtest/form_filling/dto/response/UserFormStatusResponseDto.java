@@ -13,9 +13,6 @@ public class UserFormStatusResponseDto {
     private boolean userExists;
 
     private String name;
-    private Integer age;
-    private Gender gender;
-    private String location;
 
     private Boolean formSubmitted;
     private Integer nextQuestionIndex;

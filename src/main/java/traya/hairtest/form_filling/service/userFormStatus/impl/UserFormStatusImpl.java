@@ -31,9 +31,6 @@ public class UserFormStatusImpl implements UserFormStatus {
         return UserFormStatusResponseDto.builder()
                 .userExists(true)
                 .name(userFormData.getName())
-                .age(userFormData.getAge())
-                .gender(userFormData.getGender())
-                .location(userFormData.getLocation())
                 .formSubmitted(userFormData.getSubmitted())
                 .nextQuestionIndex(userFormData.getCurrentQuestionIndex()+1)
                 .build();
