@@ -20,12 +20,23 @@ public class UserFormStatusImpl implements UserFormStatus {
     @Override
     public UserFormStatusResponseDto getUserFormStatus(String phone) {
 
-        Optional<UserEntity> userFormData = userRepository.findById(phone);
+        Optional<UserEntity> userEntity = userRepository.findById(phone);
 
-        if(userFormData.isEmpty())
+        if(userEntity.isEmpty())
             return UserFormStatusResponseDto.builder()
                     .userExists(false)
                     .build();
-        return null;
+
+        UserEntity userFormData = userEntity.get();
+        return UserFormStatusResponseDto.builder()
+                .userExists(true)
+                .name(userFormData.getName())
+                .age(userFormData.getAge())
+                .gender(userFormData.getGender())
+                .location(userFormData.getLocation())
+                .formSubmitted(userFormData.getSubmitted())
+                .currentQuestionIndex(userFormData.getCurrentQuestionIndex())
+                .build();
+
     }
 }
