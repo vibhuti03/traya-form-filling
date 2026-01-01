@@ -6,16 +6,11 @@ import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import traya.hairtest.form_filling.dto.request.FormQuestionRequestDto;
-import traya.hairtest.form_filling.dto.request.SubmitAnswerRequestDto;
-import traya.hairtest.form_filling.dto.request.UserDemographicRequestDto;
-import traya.hairtest.form_filling.dto.request.UserFormStatusRequestDto;
-import traya.hairtest.form_filling.dto.response.FormQuestionResponseDto;
-import traya.hairtest.form_filling.dto.response.SubmitAnswerResponseDto;
-import traya.hairtest.form_filling.dto.response.UserDemographicResponseDto;
-import traya.hairtest.form_filling.dto.response.UserFormStatusResponseDto;
+import traya.hairtest.form_filling.dto.request.*;
+import traya.hairtest.form_filling.dto.response.*;
 import traya.hairtest.form_filling.service.formQuestions.FormQuestions;
 import traya.hairtest.form_filling.service.submitAnswers.SubmitAnswers;
+import traya.hairtest.form_filling.service.submitForm.SubmitForm;
 import traya.hairtest.form_filling.service.userDemographicDetailsSaveOrUpdate.UserDemographicDetails;
 import traya.hairtest.form_filling.service.userFormStatus.UserFormStatus;
 
@@ -31,10 +26,13 @@ public class FormFillingController {
     private UserDemographicDetails userDemographicDetails;
 
     @Autowired
+    private FormQuestions formQuestions;
+
+    @Autowired
     private SubmitAnswers submitAnswers;
 
     @Autowired
-    private FormQuestions formQuestions;
+    private SubmitForm submitForm;
 
     @GetMapping("/health")
     public ResponseEntity<String> healthCheck(@RequestParam String name){
@@ -73,5 +71,12 @@ public class FormFillingController {
             @Valid @RequestBody SubmitAnswerRequestDto request
     ) {
         return submitAnswers.submitAnswer(request);
+    }
+
+    @PostMapping("/submit-form")
+    public SubmitFormResponseDto submitForm(
+            @Valid @RequestBody SubmitFormRequestDto request
+    ) {
+        return submitForm.submitForm(request);
     }
 }

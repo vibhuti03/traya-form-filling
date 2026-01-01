@@ -69,7 +69,7 @@ public class SubmitAnswersImpl implements SubmitAnswers {
     }
 
     private int getExpectedQuestion(UserEntity user) {
-        return user.getCurrentQuestionIndex() == 0 ? 1 : user.getCurrentQuestionIndex();
+        return user.getCurrentQuestionIndex() == 0 ? 1 : user.getCurrentQuestionIndex()+1;
     }
 
     private void validateQuestionOrder(Integer actual, int expected) {
