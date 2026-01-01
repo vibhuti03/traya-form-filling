@@ -50,7 +50,7 @@ public class SubmitAnswersImpl implements SubmitAnswers {
         persistAnswers(user, answersMap);
 
         int nextQuestion = request.getQuestionNumber() + 1;
-        updateProgress(user, nextQuestion);
+        updateProgress(user, request.getQuestionNumber());
 
         return buildResponse(nextQuestion, questionnaire.getQuestions().size());
     }
