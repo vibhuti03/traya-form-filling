@@ -48,7 +48,6 @@ public class UserDemographicDetailsImpl implements UserDemographicDetails {
         user.setName(userDemographicRequest.getName());
         user.setAge(userDemographicRequest.getAge());
         user.setGender(userDemographicRequest.getGender());
-        user.setLocation(userDemographicRequest.getLocation());
 
         //reset form status for user
         user.setCurrentQuestionIndex(0);

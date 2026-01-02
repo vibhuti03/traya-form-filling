@@ -25,8 +25,6 @@ public class UserEntity {
     @Enumerated(EnumType.STRING)
     private Gender gender;
 
-    private String location;
-
     private Integer currentQuestionIndex;
 
     @Lob

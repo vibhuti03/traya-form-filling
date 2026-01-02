@@ -21,7 +21,4 @@ public class UserDemographicRequestDto {
 
     @NotNull
     private Gender gender;
-
-    @NotBlank
-    private String location;
 }

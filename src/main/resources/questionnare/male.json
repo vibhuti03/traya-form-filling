@@ -1,76 +1,91 @@
 {
   "version": "1.0",
   "gender": "MALE",
-  "questions": [
+  "categories": [
     {
-      "number": 1,
-      "category": "HAIR_FALL",
-      "type": "SCQ",
-      "text": "Do you experience hair fall?",
-      "options": ["YES", "NO"]
+      "name": "HAIR_FALL",
+      "questions": [
+        {
+          "number": 1,
+          "type": "SCQ",
+          "text": "Do you experience hair fall?",
+          "options": ["YES", "NO"]
+        },
+        {
+          "number": 2,
+          "type": "SCQ",
+          "text": "At what age did you first notice hair fall?",
+          "options": ["<20", "20_30", "30_40", ">40"]
+        },
+        {
+          "number": 3,
+          "type": "SCQ",
+          "text": "Is hair fall present in your family?",
+          "options": ["YES", "NO", "NOT_SURE"]
+        }
+      ]
     },
     {
-      "number": 2,
-      "category": "HAIR_FALL",
-      "type": "SCQ",
-      "text": "Is hair thinning visible on your crown?",
-      "options": ["YES", "NO"]
+      "name": "SCALP_HEALTH",
+      "questions": [
+        {
+          "number": 4,
+          "type": "MCQ",
+          "text": "Which scalp issues do you face?",
+          "options": ["DANDRUFF", "ITCHING", "OILINESS", "DRYNESS"]
+        },
+        {
+          "number": 5,
+          "type": "SCQ",
+          "text": "How oily is your scalp?",
+          "options": ["NOT_OILY", "MODERATELY_OILY", "VERY_OILY"]
+        }
+      ]
     },
     {
-      "number": 3,
-      "category": "HAIR_FALL",
-      "type": "SCQ",
-      "text": "Is your hairline receding?",
-      "options": ["YES", "NO"]
+      "name": "LIFESTYLE",
+      "questions": [
+        {
+          "number": 6,
+          "type": "SCQ",
+          "text": "Do you experience high stress levels?",
+          "options": ["YES", "NO"]
+        },
+        {
+          "number": 7,
+          "type": "SCQ",
+          "text": "How many hours do you sleep daily?",
+          "options": ["<5", "5_7", ">7"]
+        }
+      ]
     },
     {
-      "number": 4,
-      "category": "SCALP_HEALTH",
-      "type": "MCQ",
-      "text": "Which scalp issues do you face?",
-      "options": ["DANDRUFF", "ITCHING", "OILINESS"]
+      "name": "MEDICAL",
+      "questions": [
+        {
+          "number": 8,
+          "type": "SCQ",
+          "text": "Have you had COVID in the past year?",
+          "options": ["YES", "NO"]
+        },
+        {
+          "number": 9,
+          "type": "SCQ",
+          "text": "Do you have any thyroid issues?",
+          "options": ["YES", "NO", "NOT_SURE"]
+        }
+      ]
     },
     {
-      "number": 5,
-      "category": "GENETICS",
-      "type": "SCQ",
-      "text": "Does hair loss run in your family?",
-      "options": ["YES", "NO", "NOT_SURE"]
-    },
-    {
-      "number": 6,
-      "category": "LIFESTYLE",
-      "type": "SCQ",
-      "text": "Do you smoke or consume alcohol frequently?",
-      "options": ["YES", "NO"]
-    },
-    {
-      "number": 7,
-      "category": "LIFESTYLE",
-      "type": "SCQ",
-      "text": "How many hours do you sleep daily?",
-      "options": ["<5", "5_7", ">7"]
-    },
-    {
-      "number": 8,
-      "category": "MEDICAL",
-      "type": "SCQ",
-      "text": "Have you had COVID in the past year?",
-      "options": ["YES", "NO"]
-    },
-    {
-      "number": 9,
-      "category": "MEDICAL",
-      "type": "SCQ",
-      "text": "Are you on any long-term medication?",
-      "options": ["YES", "NO"]
-    },
-    {
-      "number": 10,
-      "category": "HAIR_CARE",
-      "type": "SCQ",
-      "text": "How often do you shampoo your hair?",
-      "options": ["DAILY", "ALTERNATE_DAYS", "WEEKLY"]
+      "name": "HAIR_CARE",
+      "questions": [
+        {
+          "number": 10,
+          "type": "SCQ",
+          "text": "How often do you shampoo your hair?",
+          "options": ["DAILY", "ALTERNATE_DAYS", "TWICE_A_WEEK"]
+        }
+      ]
     }
   ]
 }

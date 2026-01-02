@@ -8,6 +8,6 @@ import java.util.List;
 public class Questionnare {
     private String version;
     private String gender;
-    private List<Question> questions;
+    private List<Category> categories;
 }
 

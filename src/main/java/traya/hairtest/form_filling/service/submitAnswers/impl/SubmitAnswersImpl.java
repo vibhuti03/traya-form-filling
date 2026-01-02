@@ -6,7 +6,9 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import traya.hairtest.form_filling.dto.Category;
 import traya.hairtest.form_filling.dto.Question;
+import traya.hairtest.form_filling.dto.Questionnare;
 import traya.hairtest.form_filling.dto.request.SubmitAnswerRequestDto;
 import traya.hairtest.form_filling.dto.response.SubmitAnswerResponseDto;
 import traya.hairtest.form_filling.entity.UserEntity;
@@ -34,13 +36,20 @@ public class SubmitAnswersImpl implements SubmitAnswers {
     public SubmitAnswerResponseDto submitAnswer(SubmitAnswerRequestDto request) {
 
         UserEntity user = fetchUser(request.getPhone());
+        Questionnare questionnaire = questionnareLoader.get(user.getGender().name());
+
         validateActiveForm(user);
 
-        int expectedQuestion = getExpectedQuestion(user);
-        validateQuestionOrder(request.getQuestionNumber(), expectedQuestion);
+        int totalQuestions =
+                questionnaire.getCategories().stream()
+                        .mapToInt(cat -> cat.getQuestions().size())
+                        .sum();
+        int expectedQuestion = getExpectedQuestion(user, totalQuestions);
 
-        var questionnaire = questionnareLoader.get(user.getGender().name());
-        Question question = getQuestion(questionnaire.getQuestions(), request.getQuestionNumber());
+        validateQuestionOrder(request.getQuestionNumber(), expectedQuestion) ;
+
+
+        Question question = getQuestion(questionnaire.getCategories(), request.getQuestionNumber());
 
         validateAnswers(question, request.getAnswers());
 
@@ -52,10 +61,8 @@ public class SubmitAnswersImpl implements SubmitAnswers {
         int nextQuestion = request.getQuestionNumber() + 1;
         updateProgress(user, request.getQuestionNumber());
 
-        return buildResponse(nextQuestion, questionnaire.getQuestions().size());
+        return buildResponse(nextQuestion, totalQuestions);
     }
-
-    /* ----------------- Helper methods ----------------- */
 
     private UserEntity fetchUser(String phone) {
         return userRepository.findById(phone)
@@ -68,8 +75,16 @@ public class SubmitAnswersImpl implements SubmitAnswers {
         }
     }
 
-    private int getExpectedQuestion(UserEntity user) {
-        return user.getCurrentQuestionIndex() == 0 ? 1 : user.getCurrentQuestionIndex()+1;
+    private int getExpectedQuestion(UserEntity user, int totalQuestions) {
+        int current = user.getCurrentQuestionIndex();
+
+        if (current == 0) {
+            return 1;
+        }
+        if (current == totalQuestions) {
+            return totalQuestions;
+        }
+        return current + 1;
     }
 
     private void validateQuestionOrder(Integer actual, int expected) {
@@ -78,11 +93,13 @@ public class SubmitAnswersImpl implements SubmitAnswers {
         }
     }
 
-    private Question getQuestion(List<Question> questions, int questionNumber) {
-        return questions.stream()
+    private Question getQuestion(List<Category> categories, int questionNumber) {
+        return categories.stream()
+                .flatMap(cat -> cat.getQuestions().stream())
                 .filter(q -> q.getNumber() == questionNumber)
                 .findFirst()
-                .orElseThrow(() -> new RuntimeException("Invalid question number"));
+                .orElseThrow(() ->
+                        new RuntimeException("Invalid question number"));
     }
 
     private void validateAnswers(Question question, List<String> answers) {

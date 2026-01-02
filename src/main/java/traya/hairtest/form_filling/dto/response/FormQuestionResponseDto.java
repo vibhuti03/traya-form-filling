@@ -11,6 +11,8 @@ import java.util.List;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class FormQuestionResponseDto {
     private Integer questionNumber;
+    private Boolean isLastQuestion;
+    private Boolean isLastQuestionInCategory;
     private String category;
     private String type;
     private String question;
