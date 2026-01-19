@@ -37,10 +37,6 @@ public class FormQuestionsImpl implements FormQuestions {
 
         for (Category category : questionnaire.getCategories()) {
 
-            if (!category.getName().equalsIgnoreCase(request.getCategory())) {
-                continue;
-            }
-
             List<Question> questions = category.getQuestions();
 
             for (int i = 0; i < questions.size(); i++) {
@@ -68,5 +64,6 @@ public class FormQuestionsImpl implements FormQuestions {
                 .completed(true)
                 .build();
     }
+
 }
 

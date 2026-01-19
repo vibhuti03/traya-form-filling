@@ -3,6 +3,7 @@ package traya.hairtest.form_filling.service.submitForm.impl;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import traya.hairtest.form_filling.dto.Questionnare;
 import traya.hairtest.form_filling.dto.request.SubmitFormRequestDto;
 import traya.hairtest.form_filling.dto.response.SubmitFormResponseDto;
 import traya.hairtest.form_filling.entity.UserEntity;
@@ -30,11 +31,11 @@ public class SubmitFormImpl implements SubmitForm {
             throw new RuntimeException("No active form to submit");
         }
 
+        Questionnare questionnaire = questionnareLoader.get(user.getGender().name());
         int totalQuestions =
-                questionnareLoader
-                        .get(user.getGender().name())
-                        .getQuestions()
-                        .size();
+                questionnaire.getCategories().stream()
+                        .mapToInt(cat -> cat.getQuestions().size())
+                        .sum();
         if (user.getCurrentQuestionIndex() < totalQuestions) {
             throw new RuntimeException("Form is not yet complete");
         }

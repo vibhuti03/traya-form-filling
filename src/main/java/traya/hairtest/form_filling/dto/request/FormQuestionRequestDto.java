@@ -10,7 +10,6 @@ public class FormQuestionRequestDto {
     @NotNull
     private Integer nextQuestionNumber;
 
-    @NotNull
     private String category;
 
     @NotBlank

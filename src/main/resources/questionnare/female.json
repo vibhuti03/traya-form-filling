@@ -9,19 +9,19 @@
           "number": 1,
           "type": "SCQ",
           "text": "Do you experience hair fall?",
-          "options": ["YES", "NO"]
+          "options": ["Yes", "No"]
         },
         {
           "number": 2,
           "type": "SCQ",
           "text": "How severe is your hair fall?",
-          "options": ["MILD", "MODERATE", "SEVERE"]
+          "options": ["Mild", "Moderate", "Severe"]
         },
         {
           "number": 3,
           "type": "SCQ",
           "text": "How long have you been experiencing hair fall?",
-          "options": ["<6_MONTHS", "6_12_MONTHS", ">1_YEAR"]
+          "options": ["<6 Months", "6 to 12 Months", ">1 Year"]
         }
       ]
     },
@@ -32,13 +32,13 @@
           "number": 4,
           "type": "MCQ",
           "text": "Which scalp issues do you face?",
-          "options": ["DANDRUFF", "ITCHING", "DRYNESS"]
+          "options": ["Dandruff", "Itching", "Dryness"]
         },
         {
           "number": 5,
           "type": "SCQ",
           "text": "How oily is your scalp?",
-          "options": ["NOT_OILY", "MODERATELY_OILY", "VERY_OILY"]
+          "options": ["Not Oily", "Moderately Oily", "Very Oily"]
         }
       ]
     },
@@ -49,13 +49,13 @@
           "number": 6,
           "type": "SCQ",
           "text": "Do you experience high stress levels?",
-          "options": ["YES", "NO"]
+          "options": ["Yes", "No"]
         },
         {
           "number": 7,
           "type": "SCQ",
           "text": "How many hours do you sleep daily?",
-          "options": ["<5", "5_7", ">7"]
+          "options": ["< 5 hours", "5 to 7 hours", "> 7 hours"]
         }
       ]
     },
@@ -66,13 +66,13 @@
           "number": 8,
           "type": "SCQ",
           "text": "Have you had COVID in the past year?",
-          "options": ["YES", "NO"]
+          "options": ["Yes", "No"]
         },
         {
           "number": 9,
           "type": "SCQ",
           "text": "Do you have PCOS?",
-          "options": ["YES", "NO", "NOT_SURE"]
+          "options": ["Yes", "No", "Not Sure"]
         }
       ]
     },
@@ -83,7 +83,7 @@
           "number": 10,
           "type": "SCQ",
           "text": "How often do you oil your hair?",
-          "options": ["WEEKLY", "MONTHLY", "RARELY"]
+          "options": ["Weekly", "Monthly", "Rarely"]
         }
       ]
     }
